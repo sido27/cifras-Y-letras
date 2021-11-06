@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cifras y letras</title>
+    <style>
+      #div,
+      h1 {
+        text-align: center;
+      }
+      #div2 {
+        position: relative;
+        left: 30%;
+      }
+      #busca {
+        height: 25px;
+        width: 150px;
+      }
+      #consonante,
+      #vocal {
+        height: 25px;
+        width: 80px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Juego de letras</h1>
+    <div id="div">
+      <button id="consonante">consonante</button>
+      <button id="vocal">vocal</button>
+      <br />
+      <input type="text" />
+      <br />
+      <button id="busca">buscar soluciones</button>
+    </div>
+    <div id="div2"></div>
+  </body>
+
+  <script src="./diccionario.js"></script>
+  <script>
+    let consonante = "B,C,D,F,G,H,J,K,L,M,N,Ñ,P,Q,R,S,T,V,X,Z,W,Y";
+    consonante = consonante.split(/,/);
+
+    let vocales = "A,E,I,O,U";
+    vocales = vocales.split(/,/);
+
+    let div2 = document.getElementById("div2");
+
+    let conBtn = document.querySelector("#consonante");
+    let vocBtn = document.querySelector("#vocal");
+    let box = document.querySelector("input");
+    let buscar = document.querySelector("#busca");
+    let div2Text = document.querySelector("#div2");
+
+    let s = "";
+    for (i = 1; i < diccionario.length - 1; i++) {
+      if (diccionario[i] != '"') s = s + diccionario[i];
+    }
+    let palabra = s.split(",");
+
+    let deNletras = [];
+    let cont = 9;
+    while (cont > 2) {
+      deNletras[cont] = `De ${cont} letras: `;
+
+      cont--;
+    }
+    let x = 0;
+    function contiene(str1, str2) {
+      for (i in str1) {
+        for (j in str2) {
+          if (str1[i] == str2[j]) {
+            x++;
+            break;
+          }
+        }
+      }
+
+      // return x >= str1.length ? "str1 is contained" : "str1 is NOT contained";
+      return x == str1.length;
+    }
+
+    conBtn.addEventListener("click", function () {
+      let randC = Math.floor(Math.random() * consonante.length); // de 0 a 21
+      let letra = consonante[randC];
+      box.value += letra;
+    });
+
+    vocBtn.addEventListener("click", function () {
+      let randV = Math.floor(Math.random() * vocales.length);
+      let letra = vocales[randV];
+      box.value += letra;
+    });
+
+    buscar.addEventListener("click", function () {
+      let texto = box.value.toLowerCase();
+
+      for (i in deNletras) {
+        //  div2Text.innerHTML += deNletras[i] + "<br>";
+        //console.log(palabra[0]); //abacalera
+      }
+
+      for (i = 0; i < 10; i++) {
+        console.log(palabra[i] + palabra[i].length);
+      }
+    });
+  </script>
+</html>

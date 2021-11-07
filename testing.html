@@ -11,14 +11,17 @@
       h1 {
         text-align: center;
       }
+
       #div2 {
         position: relative;
         left: 30%;
       }
+
       #busca {
         height: 25px;
         width: 150px;
       }
+
       #consonante,
       #vocal {
         height: 25px;
@@ -74,43 +77,22 @@
           cont--;
         }
 
-        // str1 = user input
-        // str2 = actual word
-        /*   para este function , always start with
-      user input as str1 , str2 is word extracted form dictionary */
-        function contained(str1, str2) {
-          str1 = str1.split("").sort().join("");
-          str2 = str2.split("").sort().join("");
+        function allIn(word1, word2) {
           let x = 0;
-          str1 = removeDup(str1);
-          str2 = removeDup(str2);
-          /* la idea aqui es como ahora tenemos las 2 palabras sotreadas
-         Y sus letras duplicadas quitadas, 
-         corremos la palabra del diccionario y la comparamos con el input del usuario
-         cada vez que encontramos la letra añadimos 1 a x
-         si al final x es igual al tamaño de la letra entonces
-          sabemos que str2 está incluido en str1
-          */
-          for (i in str2) {
-            for (j in str1) {
-              if (str2[i] == str1[j]) {
-                x++;
-              }
+
+          const allIncluded = word2.split("");
+
+          for (letra of word2) {
+            if (word1.includes(letra)) {
+              let pos = word1.indexOf(letra); // get index of this letra from user input , and store it
+              // console.log(pos);
+              word1 = word1.slice(0, pos) + word1.slice(pos + 1, word1.length);
+              //delete this letra based on its position from userinput
+
+              x++;
             }
           }
-
-          return x == str2.length;
-        }
-
-        function removeDup(str1) {
-          // funcion para quiter letras duplicadas
-          let x = "";
-          for (let i = 0; i < str1.length; i++) {
-            if (str1[i] != str1[i + 1]) {
-              x += str1[i];
-            }
-          }
-          return x;
+          return x == word2.length;
         }
 
         conBtn.addEventListener("click", function () {
@@ -128,9 +110,9 @@
         buscar.addEventListener("click", function () {
           let texto = box.value;
 
-          for (let i in ray) {
-            if (contained(texto, ray[i])) {
-              console.log(ray[i]);
+          for (let i of ray) {
+            if (allIn(texto, i) && i.length > 2) {
+              console.log(i);
             }
           }
         });

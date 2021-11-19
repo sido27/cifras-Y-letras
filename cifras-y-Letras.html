@@ -1,207 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-
-  <style>
-    #div,
-    h1 {
-      text-align: center;
-    }
-
-    #div2,
-    #span {
-      position: relative;
-      left: 30%;
-    }
-
-    #busca {
-      height: 25px;
-      width: 150px;
-    }
-
-    #consonante,
-    #vocal {
-      height: 25px;
-      width: 80px;
-    }
-  </style>
-</head>
-
-<body>
-  <h1>Juego de letras</h1>
-  <div id="div">
-    <button id="consonante">consonante</button>
-    <button id="vocal">vocal</button>
-    <br />
-    <input type="text" />
-    <br />
-    <button id="busca">buscar soluciones</button>
-  </div>
-  <span id="span3"></span>
-  <div id="div3"></div>
-  <br />
-  <span id="span4"></span>
-  <div id="div4"></div>
-  <br />
-  <span id="span5"></span>
-  <div id="div5"></div>
-  <br />
-  <span id="span6"></span>
-  <div id="div6"></div>
-  <br />
-  <span id="span7"></span>
-  <div id="div7"></div>
-  <br />
-  <span id="span8"></span>
-  <div id="div8"></div>
-  <br />
-  <span id="span9"></span>
-  <div id="div9"></div>
-</body>
-
-<script>
-  fetch("dic.txt")
-    .then((d) => d.text())
-    .then((palabras) => {
-      let words = palabras.split(/\n|\s/);
-      let ray = [];
-      for (i in words) {
-        if (words[i] != "") {
-          ray.push(words[i].toUpperCase());
-        }
+    <style>
+      #div,
+      h1 {
+        text-align: center;
       }
 
-      let consonante = "B,C,D,F,G,H,J,K,L,M,N,Ñ,P,Q,R,S,T,V,X,Z,W,Y";
-      consonante = consonante.split(/,/);
-
-      let vocales = "A,E,I,O,U";
-      vocales = vocales.split(/,/);
-
-
-      let conBtn = document.querySelector("#consonante");
-      let vocBtn = document.querySelector("#vocal");
-      let box = document.querySelector("input");
-      let buscar = document.querySelector("#busca");
-      let div3 = document.querySelector("#div3");
-      let nLetras3 = document.querySelector("#span3");
-      let div4 = document.querySelector("#div4");
-      let nLetras4 = document.querySelector("#span4");
-      let div5 = document.querySelector("#div5");
-      let nLetras5 = document.querySelector("#span5");
-      let div6 = document.querySelector("#div6");
-      let nLetras6 = document.querySelector("#span6");
-      let div7 = document.querySelector("#div7");
-      let nLetras7 = document.querySelector("#span7");
-      let div8 = document.querySelector("#div8");
-      let nLetras8 = document.querySelector("#span8");
-      let div9 = document.querySelector("#div9");
-      let nLetras9 = document.querySelector("#span9");
-
-
-      let deNletras = [];
-      let cont = 9;
-      while (cont > 2) {
-        deNletras[cont] = `De ${cont} letras: `;
-
-        cont--;
+      #div2,
+      #span {
+        position: relative;
+        left: 30%;
       }
 
+      #busca {
+        height: 25px;
+        width: 150px;
+      }
 
-      function allIn(word1, word2) {
-        let x = 0;
+      #consonante,
+      #vocal {
+        height: 25px;
+        width: 80px;
+      }
+    </style>
+  </head>
 
-        const allIncluded = word2.split("");
+  <body>
+    <h1>Juego de letras</h1>
+    <div id="div">
+      <button id="consonante">consonante</button>
+      <button id="vocal">vocal</button>
+      <br />
+      <input type="text" />
+      <br />
+      <button id="busca">buscar soluciones</button>
+    </div>
+    <span id="span3"></span>
+    <div id="div3" class="palabras"></div>
+    <br />
+    <span id="span4"></span>
+    <div id="div4" class="palabras"></div>
+    <br />
+    <span id="span5"></span>
+    <div id="div5" class="palabras"></div>
+    <br />
+    <span id="span6"></span>
+    <div id="div6" class="palabras"></div>
+    <br />
+    <span id="span7"></span>
+    <div id="div7" class="palabras"></div>
+    <br />
+    <span id="span8"></span>
+    <div id="div8" class="palabras"></div>
+    <br />
+    <span id="span9"></span>
+    <div id="div9" class="palabras"></div>
+  </body>
 
-        for (letra of word2) {
-          if (word1.includes(letra)) {
-            let pos = word1.indexOf(letra); // get index of this letra from user input , and store it
-            // console.log(pos);
-            word1 = word1.slice(0, pos) + word1.slice(pos + 1, word1.length);
-            //delete this letra based on its position from userinput
-
-            x++;
+  <script>
+    fetch("dic.txt")
+      .then((d) => d.text())
+      .then((palabras) => {
+        let words = palabras.split(/\n|\s/);
+        let ray = [];
+        for (i in words) {
+          if (words[i] != "") {
+            ray.push(words[i].toUpperCase());
           }
         }
-        return x == word2.length;
-      }
 
-      conBtn.addEventListener("click", function () {
-        let randC = Math.floor(Math.random() * consonante.length); // de 0 a 21
-        let letra = consonante[randC];
-        box.value += letra;
-      });
+        let consonante = "B,C,D,F,G,H,J,K,L,M,N,Ñ,P,Q,R,S,T,V,X,Z,W,Y";
+        consonante = consonante.split(/,/);
 
-      vocBtn.addEventListener("click", function () {
-        let randV = Math.floor(Math.random() * vocales.length);
-        let letra = vocales[randV];
-        box.value += letra;
-      });
+        let vocales = "A,E,I,O,U";
+        vocales = vocales.split(/,/);
 
-      buscar.addEventListener("click", function () {
-        let len3 = ""
-        let len4 = ""
-        let texto = box.value;
+        let conBtn = document.querySelector("#consonante");
+        let vocBtn = document.querySelector("#vocal");
+        let box = document.querySelector("input");
+        let buscar = document.querySelector("#busca");
+        let div3 = document.querySelector("#div3");
+        let nLetras3 = document.querySelector("#span3");
+        let div4 = document.querySelector("#div4");
+        let nLetras4 = document.querySelector("#span4");
+        let div5 = document.querySelector("#div5");
+        let nLetras5 = document.querySelector("#span5");
+        let div6 = document.querySelector("#div6");
+        let nLetras6 = document.querySelector("#span6");
+        let div7 = document.querySelector("#div7");
+        let nLetras7 = document.querySelector("#span7");
+        let div8 = document.querySelector("#div8");
+        let nLetras8 = document.querySelector("#span8");
+        let div9 = document.querySelector("#div9");
+        let nLetras9 = document.querySelector("#span9");
 
-        for (let palabra of ray) {
-          if (allIn(texto, palabra) && palabra.length > 2) {
-            // console.log(i);
+        let deNletras = [];
+        let cont = 9;
+        while (cont > 2) {
+          deNletras[cont] = `De ${cont} letras: `;
 
+          cont--;
+        }
 
-            switch (palabra.length) {
-              case 3:
-                nLetras3.innerHTML = deNletras[3];
-                div3.innerHTML += palabra + ", ";
-                break;
-              case 4:
-                nLetras4.innerHTML = deNletras[4];
-                div4.innerHTML += palabra + ", ";
-                break;
-              case 5:
-                nLetras5.innerHTML = deNletras[5];
-                div5.innerHTML += palabra + ", ";
-                break;
-              case 6:
-                nLetras6.innerHTML = deNletras[6];
-                div6.innerHTML += palabra + ", ";
-                break;
+        function allIn(word1, word2) {
+          let x = 0;
 
-              case 7:
-                nLetras7.innerHTML = deNletras[7];
-                div7.innerHTML += palabra + ", ";
-                break;
+          const allIncluded = word2.split("");
 
-              case 8:
-                nLetras8.innerHTML = deNletras[8];
-                div8.innerHTML += palabra + ", ";
-                break;
+          for (letra of word2) {
+            if (word1.includes(letra)) {
+              let pos = word1.indexOf(letra); // get index of this letra from user input , and store it
+              // console.log(pos);
+              word1 = word1.slice(0, pos) + word1.slice(pos + 1, word1.length);
+              //delete this letra based on its position from userinput
 
-              case 9:
-                nLetras9.innerHTML = deNletras[9];
-                div9.innerHTML += palabra + ", ";
-                break;
+              x++;
             }
-
-
-
           }
+          return x == word2.length;
         }
 
-          //ATTENTION !! NOT ALL DIVS AS THIS WOULD CREATE INSTABILITY THAT I DONT REMEMBER NOW , ONLY TARGET SPECIFIC DIVS
-        document.querySelectorAll("div").forEach((elem) => {
-          elem.innerHTML = elem.innerHTML.replace(/,\s*$/, ".")
+        conBtn.addEventListener("click", function () {
+          let randC = Math.floor(Math.random() * consonante.length); // de 0 a 21
+          let letra = consonante[randC];
+          box.value += letra;
         });
 
-        document.querySelectorAll("span").forEach((elem) => {
-          elem.style.color = "red"
+        vocBtn.addEventListener("click", function () {
+          let randV = Math.floor(Math.random() * vocales.length);
+          let letra = vocales[randV];
+          box.value += letra;
         });
-        //console.log(x);
+
+        buscar.addEventListener("click", function () {
+          let len3 = "";
+          let len4 = "";
+          let texto = box.value;
+
+          for (let palabra of ray) {
+            if (allIn(texto, palabra) && palabra.length > 2) {
+              // console.log(i);
+
+              switch (palabra.length) {
+                case 3:
+                  nLetras3.innerHTML = deNletras[3];
+                  div3.innerHTML += palabra + ", ";
+                  break;
+                case 4:
+                  nLetras4.innerHTML = deNletras[4];
+                  div4.innerHTML += palabra + ", ";
+                  break;
+                case 5:
+                  nLetras5.innerHTML = deNletras[5];
+                  div5.innerHTML += palabra + ", ";
+                  break;
+                case 6:
+                  nLetras6.innerHTML = deNletras[6];
+                  div6.innerHTML += palabra + ", ";
+                  break;
+
+                case 7:
+                  nLetras7.innerHTML = deNletras[7];
+                  div7.innerHTML += palabra + ", ";
+                  break;
+
+                case 8:
+                  nLetras8.innerHTML = deNletras[8];
+                  div8.innerHTML += palabra + ", ";
+                  break;
+
+                case 9:
+                  nLetras9.innerHTML = deNletras[9];
+                  div9.innerHTML += palabra + ", ";
+                  break;
+              }
+            }
+          }
+
+          // para replazar la ultima letra por un punto en vez de ","
+          document.querySelectorAll(".palabras").forEach((elem) => {
+            elem.innerHTML = elem.innerHTML.replace(/,\s*$/, ".");
+          });
+
+          document.querySelectorAll("span").forEach((elem) => {
+            elem.style.color = "red";
+          });
+          buscar.disabled = true;
+        });
       });
-    });
-</script>
-
+  </script>
 </html>

@@ -191,7 +191,7 @@
           }
         }
 
-
+          //ATTENTION !! NOT ALL DIVS AS THIS WOULD CREATE INSTABILITY THAT I DONT REMEMBER NOW , ONLY TARGET SPECIFIC DIVS
         document.querySelectorAll("div").forEach((elem) => {
           elem.innerHTML = elem.innerHTML.replace(/,\s*$/, ".")
         });

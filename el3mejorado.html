@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advinar palabras</title>
+    <style>
+        #div {
+            text-align: center;
+        }
+
+        #resultado {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <div id="div">
+        <label for="cosas">
+            <select name="cosas" id="cosas">
+                <option value="animales">animales</option>
+                <option value="paises">paises</option>
+
+                <option value="frutas">frutas</option>
+            </select>
+        </label>
+        <h1>advina la palabra oculta</h1>
+        Letras <input type="text" id="letras" />
+        <br />
+        <br />
+        Palabra <input type="text" id="palabras" />
+        <br />
+        <br />
+        <button id="nueva">Nueva palabra</button>
+        <button id="ver">Ver solucion</button>
+        <button id="fin">Finalizar juego</button>
+
+        <div id="resultado"></div>
+    </div>
+</body>
+<script>
+
+    let arr = ["gato", "pajaro", "elefante", "tigre", "perro"]
+    let arr2 = ["espana", "alemania", "francia", "siria", "argentina"]
+    let arr3 = ["banana", "fresa", "manzana", "naranja", "melon"]
+
+    let nueva = document.querySelector("#nueva")
+    let ver = document.querySelector("#ver")
+    let fin = document.querySelector("#fin")
+    let letras = document.querySelector("#letras")
+    let palabras = document.querySelector("#palabras")
+    let resultado = document.querySelector("#resultado")
+    ver.disabled = true
+
+    let indice = 0 // para luego al ver la resulta sacar cual palabra era del arr
+    let contClick = 0 // para contar cunatas veces hemos hecho click a nueva palabra
+    let cont = 0
+    function scramble(a) {
+        a = a.split("");
+        for (let b = a.length - 1; 0 < b; b--) {
+            let c = Math.floor(Math.random() * (b + 1));
+            d = a[b];
+            a[b] = a[c];
+            a[c] = d;
+        }
+        return a.join("");
+    }
+
+    // return Math.floor(Math.random() * (max - min + 1) + min)
+
+    nueva.addEventListener("click", function () {
+
+        let cosas = document.querySelector("#cosas")
+
+        if (cosas.value == "animales") {
+            arr = arr
+        }
+        else if (cosas.value == "paises") {
+            arr = arr2
+        }
+
+        else if (cosas.value == "frutas") {
+            arr = arr3
+        }
+
+
+        if (contClick == 0) {
+            ver.disabled = false
+            let rand = Math.floor(Math.random() * (arr.length))
+            indice = rand
+            letras.value = scramble(arr[rand])
+        }
+        else {
+            resultado.innerHTML = ""
+            let rand = Math.floor(Math.random() * (arr.length))
+            indice = rand
+            letras.value = scramble(arr[rand])
+            palabras.value = ""
+        }
+        contClick++
+palabras.setAttribute("maxLength", arr[indice].length);
+    })
+
+    ver.addEventListener("click", function () {
+
+        let x = palabras.value  // palabra del usuario
+        let y = arr[indice]  //palabra original
+
+
+
+        for (let i = 0; i < x.length; i++) {
+
+            if (x[i] == y[i]) {
+                cont++
+            }
+        }
+        if (cont == y.length) {
+
+            resultado.innerHTML = `CORRECTO!`
+        }
+
+        else {
+            resultado.innerHTML = `Lo siento. Has falldo. La palabra era ${y}`
+        }
+
+
+    })
+
+    fin.addEventListener("click", function () {
+
+
+
+        document.querySelectorAll("button").forEach((elem) => {
+            elem.disabled = true;
+        });
+
+
+
+        let porcentaje = (cont / arr[indice].length) * 100
+
+
+
+
+        if (porcentaje == 100) {
+            resultado.innerHTML = `Porcentaje de aciertos: ${porcentaje} % ;)`
+        }
+
+        else {
+            resultado.innerHTML = `Porcentaje de aciertos: ${porcentaje} % `
+        }
+        let x = 4 ;
+        window.setTimeout(function () { 
+		  
+
+		location.reload() }, 4000)
+    })
+
+</script>
+
+</html>
